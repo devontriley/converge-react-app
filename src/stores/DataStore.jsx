@@ -58,7 +58,7 @@ class DataStore {
   }
 
   getMenu(slug) {
-    let menu = this.getState().data.menus;
+    let menu = this.getState().data.menu;
     return menu.filter((el, i) => {
       return el.slug == slug
     })

@@ -5,10 +5,12 @@ class DataActions {
   constructor() {
     const appUrl = 'http://known-development.com/converge';
 
+    let menu = 'main-nav';
+
     this.pagesEndPoint = `${appUrl}/wp-json/wp/v2/pages`;
     this.postsEndPoint = `${appUrl}/wp-json/wp/v2/posts`;
     this.entrepreneursEndPoint = `${appUrl}/wp-json/custom/v1/entrepreneurs`;
-    this.menusEndPoint = `${appUrl}/wp-json/menus/v1/menus`;
+    this.menusEndPoint = `${appUrl}/wp-json/custom/v1/menu/${menu}`;
   }
 
   api(endPoint) {
@@ -32,14 +34,14 @@ class DataActions {
     let p = payload;
     this.api(this.postsEndPoint).then((response) => {
       p.posts = response;
-      this.getMenus(p, cb);
+      this.getMenu(p, cb);
     })
   }
 
-  getMenus(payload, cb) {
+  getMenu(payload, cb) {
     let p = payload;
     this.api(this.menusEndPoint).then((response) => {
-      p.menus = response;
+      p.menu = response;
       this.getEntrepreneurs(p, cb);
     })
   }
