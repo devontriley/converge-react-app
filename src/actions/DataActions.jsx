@@ -5,12 +5,7 @@ class DataActions {
   constructor() {
     const appUrl = 'http://known-development.com/converge';
 
-    let menu = 'main-nav';
-
     this.pagesEndPoint = `${appUrl}/wp-json/wp/v2/pages`;
-    this.postsEndPoint = `${appUrl}/wp-json/wp/v2/posts`;
-    this.entrepreneursEndPoint = `${appUrl}/wp-json/custom/v1/entrepreneurs`;
-    this.menusEndPoint = `${appUrl}/wp-json/custom/v1/menu/${menu}`;
   }
 
   api(endPoint) {
@@ -23,43 +18,20 @@ class DataActions {
     });
   }
 
-  getPages(cb) {
+  getPages() {
     this.api(this.pagesEndPoint).then((response) => {
-      let payload = { pages: response };
-      this.getPosts(payload, cb);
+      this.handleSuccess(response);
+    }).catch((error) => {
+      this.handleError(error);
     });
   }
 
-  getPosts(payload, cb) {
-    let p = payload;
-    this.api(this.postsEndPoint).then((response) => {
-      p.posts = response;
-      this.getMenu(p, cb);
-    })
+  handleError(error) {
+    return error;
   }
 
-  getMenu(payload, cb) {
-    let p = payload;
-    this.api(this.menusEndPoint).then((response) => {
-      p.menu = response;
-      this.getEntrepreneurs(p, cb);
-    })
-  }
-
-  getEntrepreneurs(payload, cb) {
-    let p = payload;
-    this.api(this.entrepreneursEndPoint).then((response) => {
-      p.entrepreneurs = response;
-      this.getSuccess(p); // Pass returned data to the store
-      cb(payload); // This callback will be used for dynamic rout building
-    })
-  }
-
-  // This returnes an object with Pages and Posts data together
-  // The Alt Store will listen for this method to fire and will store the returned data
-  getSuccess(payload) {
-    console.log(payload);
-    return payload;
+  handleSuccess(response) {
+    return response;
   }
 }
 

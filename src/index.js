@@ -51,9 +51,7 @@ class AppInit extends Component {
   }
 }
 
-DataActions.getPages((response) => {
   ReactDOM.render(
     <AppInit />,
     document.getElementById('root')
   );
-});

@@ -3,62 +3,37 @@ import DataActions from './../actions/DataActions';
 
 class DataStore {
   constructor() {
-    this.data = {};
+    this.state = {
+      pages: [],
+      error: null
+    }
 
     this.bindListeners({
-      handleSuccess: DataActions.GET_SUCCESS
-    });
-
-    this.exportPublicMethods({
-      getAll: this.getAll,
-      getPages: this.getPages,
-      getPageBySlug: this.getPageBySlug,
-      getEntrepreneurs: this.getEntrepreneurs,
-      getMenu: this.getMenu
+      handleUpdatePages: DataActions.HANDLE_SUCCESS,
+      handleGetPages: DataActions.GET_PAGES,
+      handleError: DataActions.HANDLE_ERROR
     });
   }
 
-
-
-  getAll() {
-    return this.getState().data;
+  handleUpdatePages(pages) {
+    this.setState({
+      pages: pages,
+      error: null
+    });
+    console.log(this.state);
   }
 
-  getPages(id = []) {
-    const pages = this.getState().data.pages;
-    if(id.length <= 0) {
-      return pages
-    }
-    return pages.filter((page, i) => {
-      return id.indexOf(page.id) !== -1
-    })
+  handleGetPages() {
+    this.setState({
+      pages: [],
+      error: null
+    }) // reset array so we can display a loader while data is being fetched and array is empty
+    console.log(this.state);
   }
 
-  getAllPosts() {
-    return this.getState().posts;
-  }
-
-  getPageBySlug(slug) {
-    const pages = this.getState().data.pages;
-    return pages[Object.keys(pages).find((page, i) => {
-      return pages[page].slug === slug;
-    })] || {};
-  }
-
-  getEntrepreneurs(id = []) {
-    const entrepreneurs = this.getState().data.entrepreneurs;
-    if(id.length <= 0) {
-      return entrepreneurs
-    }
-    return entrepreneurs.filter((el, i) => {
-      return id.indexOf(el.ID) !== -1
-    })
-  }
-
-  getMenu(slug) {
-    let menu = this.getState().data.menu;
-    return menu.filter((el, i) => {
-      return el.slug == slug
+  handleError(error) {
+    this.setState({
+      error: error
     })
   }
 }
