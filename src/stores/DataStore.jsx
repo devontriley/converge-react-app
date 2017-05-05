@@ -18,9 +18,7 @@ class DataStore {
     });
   }
 
-  handleSuccess(data) {
-    this.setState({ data });
-  }
+
 
   getAll() {
     return this.getState().data;
